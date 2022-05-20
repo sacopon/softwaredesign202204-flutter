@@ -44,10 +44,33 @@ class StartPage extends StatelessWidget {
               style: TextStyle(fontSize: 32),
             ),
             const SizedBox(height: 24),
-            ElevatedButton(onPressed: () => {}, child: const Text('スタート'))
+            ElevatedButton(
+                onPressed: () => showPuzzlePage(context),
+                child: const Text('スタート'))
           ],
         ),
       ),
     );
+  }
+
+  void showPuzzlePage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PuzzlePage()),
+    );
+  }
+}
+
+class PuzzlePage extends StatefulWidget {
+  const PuzzlePage({Key? key}) : super(key: key);
+
+  @override
+  _PuzzlePageState createState() => _PuzzlePageState();
+}
+
+class _PuzzlePageState extends State<PuzzlePage> {
+  @override
+  Widget build(BuildContext conntext) {
+    return Scaffold();
   }
 }
