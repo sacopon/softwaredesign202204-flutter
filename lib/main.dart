@@ -71,6 +71,91 @@ class PuzzlePage extends StatefulWidget {
 class _PuzzlePageState extends State<PuzzlePage> {
   @override
   Widget build(BuildContext conntext) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('スライドパズル'),
+        actions: [
+          // 保存したタイルの状態を読み込むボタン
+          IconButton(
+            onPressed: () => {},
+            icon: const Icon(Icons.play_arrow),
+          ),
+          // 現在のタイル状態を保存するボタン
+          IconButton(
+            onPressed: () => {},
+            icon: const Icon(Icons.save),
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                // タイル一覧
+                child: TilesView(),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => {},
+                icon: const Icon(Icons.shuffle),
+                label: const Text('シャッフル'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TilesView extends StatelessWidget {
+  const TilesView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+      shrinkWrap: true,
+      crossAxisCount: 3,
+      crossAxisSpacing: 24,
+      mainAxisSpacing: 24,
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      children: [
+        TileView(number: 1, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 2, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 3, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 4, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 5, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 6, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 7, color: Colors.blue, onPressed: () => {}),
+        TileView(number: 8, color: Colors.blue, onPressed: () => {}),
+      ],
+    );
+  }
+}
+
+class TileView extends StatelessWidget {
+  final int number;
+  final Color color;
+  final void Function() onPressed;
+
+  const TileView({
+    Key? key,
+    required this.number,
+    required this.color,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+          primary: color, textStyle: const TextStyle(fontSize: 32)),
+      child: Center(child: Text(number.toString())),
+    );
   }
 }
