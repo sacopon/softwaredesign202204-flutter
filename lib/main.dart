@@ -65,10 +65,12 @@ class PuzzlePage extends StatefulWidget {
   const PuzzlePage({Key? key}) : super(key: key);
 
   @override
-  _PuzzlePageState createState() => _PuzzlePageState();
+  State<PuzzlePage> createState() => _PuzzlePageState();
 }
 
 class _PuzzlePageState extends State<PuzzlePage> {
+  List<int> tileNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+
   @override
   Widget build(BuildContext conntext) {
     return Scaffold(
@@ -94,7 +96,10 @@ class _PuzzlePageState extends State<PuzzlePage> {
             Expanded(
               child: Center(
                 // タイル一覧
-                child: TilesView(),
+                child: TilesView(
+                  // データを渡す
+                  numbers: tileNumbers,
+                ),
               ),
             ),
             SizedBox(
@@ -113,7 +118,13 @@ class _PuzzlePageState extends State<PuzzlePage> {
 }
 
 class TilesView extends StatelessWidget {
-  const TilesView({Key? key}) : super(key: key);
+  final List<int> numbers;
+
+  const TilesView({
+    Key? key,
+    // データを受け取る
+    required this.numbers,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -123,16 +134,16 @@ class TilesView extends StatelessWidget {
       crossAxisSpacing: 24,
       mainAxisSpacing: 24,
       padding: const EdgeInsets.symmetric(vertical: 24),
-      children: [
-        TileView(number: 1, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 2, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 3, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 4, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 5, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 6, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 7, color: Colors.blue, onPressed: () => {}),
-        TileView(number: 8, color: Colors.blue, onPressed: () => {}),
-      ],
+      children: numbers.map((number) {
+        if (number == 0) {
+          return Container();
+        }
+        return TileView(
+          number: number,
+          color: Colors.blue,
+          onPressed: () => {},
+        );
+      }).toList(),
     );
   }
 }
