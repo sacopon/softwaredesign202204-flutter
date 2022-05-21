@@ -99,13 +99,14 @@ class _PuzzlePageState extends State<PuzzlePage> {
                 child: TilesView(
                   numbers: tileNumbers,
                   isCorrect: calcIsCorrect(tileNumbers),
+                  onPressed: (number) => swapTile(number),
                 ),
               ),
             ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: () => {},
+                onPressed: () => shuffleTiles(),
                 icon: const Icon(Icons.shuffle),
                 label: const Text('シャッフル'),
               ),
@@ -126,17 +127,53 @@ class _PuzzlePageState extends State<PuzzlePage> {
 
     return true;
   }
+
+  void swapTile(int number) {
+    if (canSwapTile(number)) {
+      setState(() {
+        final indexOfTile = tileNumbers.indexOf(number);
+        final indexOfEmpty = tileNumbers.indexOf(0);
+        tileNumbers[indexOfTile] = 0;
+        tileNumbers[indexOfEmpty] = number;
+      });
+    }
+  }
+
+  bool canSwapTile(int number) {
+    final indexOfTile = tileNumbers.indexOf(number);
+    final indexOfEmpty = tileNumbers.indexOf(0);
+    final table = [
+      [1, 3],
+      [0, 2, 4],
+      [1, 5],
+      [4, 0, 6],
+      [3, 5, 1, 7],
+      [4, 2, 8],
+      [7, 3],
+      [6, 8, 4],
+      [7, 5],
+    ];
+    return table[indexOfEmpty].contains(indexOfTile);
+  }
+
+  void shuffleTiles() {
+    setState(() {
+      tileNumbers.shuffle();
+    });
+  }
 }
 
 class TilesView extends StatelessWidget {
   final List<int> numbers;
   final bool isCorrect;
+  final void Function(int number) onPressed;
 
   const TilesView({
     Key? key,
     // データを受け取る
     required this.numbers,
     required this.isCorrect,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -154,7 +191,7 @@ class TilesView extends StatelessWidget {
         return TileView(
           number: number,
           color: isCorrect ? Colors.green : Colors.blue,
-          onPressed: () => {},
+          onPressed: () => onPressed(number),
         );
       }).toList(),
     );
